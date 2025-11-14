@@ -1,16 +1,21 @@
 "use client";
 
-import { useToggleStore } from "./store/toggleStore";
+import { useUIStore } from "./store/toggleStore";
 import { FrontendPush } from "./components/FrontendPush";
 import { BackendPush } from "./components/BackendPush";
 
 export default function Page() {
-  const { on } = useToggleStore();
+  const { on } = useUIStore();
 
   return (
     <>
-
-      {on ? <BackendPush /> : <FrontendPush />}
+      {on ? (
+        <BackendPush />
+      ) : (
+        <>
+          <FrontendPush />
+        </>
+      )}
     </>
   );
 }

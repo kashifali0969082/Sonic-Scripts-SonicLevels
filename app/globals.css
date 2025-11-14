@@ -1,0 +1,33 @@
+
+@import "tailwindcss";
+
+@layer utilities {
+  @keyframes pulse-slow {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.8;
+    }
+  }
+
+  .animate-pulse-slow {
+    animation: pulse-slow 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: white;
+  color: rgb(17 24 39);
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: rgb(17 24 39);
+    color: rgb(243 244 246);
+  }
+}
