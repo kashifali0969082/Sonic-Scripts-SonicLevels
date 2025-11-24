@@ -6,23 +6,41 @@ import Link from "next/link";
 import { useState } from "react";
 import { useSwitchChain } from "wagmi";
  import { sonic } from "../../config/customChain";
+ import { sepolia } from "viem/chains";
  import { useEffect } from "react";
+import { useAccount, useChainId } from "wagmi";
+import { toast } from "react-toastify";
 export function Header() {
   const { on, toggle, network, toggleNetwork } = useUIStore();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { switchChain } = useSwitchChain();
+  const { isConnected } = useAccount();
+  const currentChainId = useChainId();
+
+  const handleNetworkToggle = () => {
+    const newNetworkState = !network; // Get the new state after toggle
+    toggleNetwork();
+    
+    // Only switch wallet chain if wallet is connected
+    if (isConnected && switchChain) {
+      const targetChainId = newNetworkState ? sonic.id : sepolia.id;
+      if (currentChainId !== targetChainId) {
+        switchChain({ chainId: targetChainId });
+      }
+    }
+  };
 
   useEffect(() => {
-    if (!switchChain) return;
-
-    if (network) {
-      // Switch to Sonic Mainnet
-      switchChain(sonic.id);
-    } else {
-      // Switch to Sepolia Testnet
-      switchChain(sepolia.id);
+    // Only auto-switch wallet chain if wallet is connected
+    if (!switchChain || !isConnected) return;
+  
+    const targetChainId = network ? sonic.id : sepolia.id;
+    
+    // Only switch if we're not already on the target chain
+    if (currentChainId !== targetChainId) {
+      switchChain({ chainId: targetChainId });
     }
-  }, [network, switchChain]);
+  }, [network, switchChain, isConnected, currentChainId]);
   return (
     <header className="sticky top-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700 shadow-sm">
       <div className="container mx-auto px-6 py-4">
@@ -98,7 +116,7 @@ export function Header() {
         )}
 
         <div className="mt-4 flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-gray-200 dark:border-gray-700">
-          <div className="flex items-center gap-3">
+          {/* <div className="flex items-center gap-3">
             <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
               {on ? "Backend Scripts" : "Frontend Testing"}
             </span>
@@ -112,14 +130,14 @@ export function Header() {
                 }`}
               />
             </div>
-          </div>
+          </div> */}
 
           <div className="flex items-center gap-3">
             <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-              {network ? "Sonic Mainnet" : "Sepolia Testnet"}
+              {network ? "Sonic Mainnet" : "Monad Mainnet"}
             </span>
             <div
-              onClick={toggleNetwork}
+              onClick={handleNetworkToggle}
               className="relative w-16 h-8 flex items-center bg-gray-300 dark:bg-gray-600 rounded-full p-1 cursor-pointer hover:bg-gray-400 dark:hover:bg-gray-500 transition-colors"
             >
               <div

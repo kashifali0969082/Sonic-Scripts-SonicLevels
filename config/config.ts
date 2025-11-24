@@ -1,13 +1,13 @@
 import { getDefaultConfig } from '@rainbow-me/rainbowkit';
 import { http } from 'wagmi';
 import {  sepolia } from 'wagmi/chains';
-import { sonic } from './customChain';
+import { sonic,monad} from './customChain';
 export const config = getDefaultConfig({
   appName: 'My RainbowKit App',
   projectId: 'YOUR_PROJECT_ID',
-  chains: [ sepolia],
+  chains: [monad, sonic],
   transports: {
-    [sepolia.id]: http(),
+    [monad.id]: http(),
     [sonic.id]: http(),
   },
 });

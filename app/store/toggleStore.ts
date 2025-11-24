@@ -1,5 +1,8 @@
 import { create } from "zustand";
 
+//
+// Toggle Store (unchanged)
+//
 type ToggleState = {
   on: boolean;
   toggle: () => void;
@@ -12,11 +15,15 @@ export const useToggleStore = create<ToggleState>((set) => ({
   setOn: (value) => set({ on: value }),
 }));
 
+
+//
+// UI Store (clean + correct)
+//
 type UIState = {
   on: boolean;
   toggle: () => void;
 
-  network: boolean; // false = testnet, true = sonic mainnet
+  network: boolean;   // false = Sepolia, true = Sonic
   toggleNetwork: () => void;
 };
 
@@ -25,5 +32,8 @@ export const useUIStore = create<UIState>((set) => ({
   toggle: () => set((state) => ({ on: !state.on })),
 
   network: false,
-  toggleNetwork: () => set((state) => ({ network: !state.network })),
+  toggleNetwork: () =>
+    set((state) => ({
+      network: !state.network,
+    })),
 }));

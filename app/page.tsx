@@ -9,13 +9,8 @@ export default function Page() {
 
   return (
     <>
-      {on ? (
         <BackendPush />
-      ) : (
-        <>
-          <FrontendPush />
-        </>
-      )}
+   
     </>
   );
 }

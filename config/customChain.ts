@@ -16,3 +16,26 @@ export const sonic = defineChain({
     default: { name: "SonicScan", url: "https://sonicscan.org" },
   },
 });
+
+
+export const monad = defineChain({
+  id: 143,
+  name: "Monad",
+  network: "MON",
+  rpcUrls: {
+    default: {
+      http: ["https://monad-mainnet.g.alchemy.com/v2/dn58Cx-lDJHKiX8XYZwcPYZqZAUsT5JQ"],
+    },
+  },
+  nativeCurrency: {
+    name: "Monad",
+    symbol: "MON",
+    decimals: 18,
+  },
+  blockExplorers: {
+    default: {
+      name: "MonadScan",
+      url: "https://monadscan.io",
+    },
+  },
+});
