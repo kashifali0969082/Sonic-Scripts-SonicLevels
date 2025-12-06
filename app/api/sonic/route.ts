@@ -1,10 +1,14 @@
 import { NextResponse } from "next/server";
-import { testConnection, getDb } from "../../../lib/mongod";
+import { connectMongoose } from "@/lib/mongoose";
+import mongoose from "mongoose";
 
 export async function GET() {
   try {
-    // Test connection
-    const isConnected = await testConnection();
+    // Test connection using Mongoose
+    await connectMongoose();
+    
+    // Check if connection is ready
+    const isConnected = mongoose.connection.readyState === 1;
     
     if (!isConnected) {
       return NextResponse.json(
@@ -13,13 +17,13 @@ export async function GET() {
       );
     }
 
-    // Try to get a database to verify it works
-    const db = await getDb("test");
+    // Get database name to verify it works
+    const dbName = mongoose.connection.db?.databaseName || "unknown";
     
     return NextResponse.json({
       message: "API working!",
       connected: true,
-      database: "test",
+      database: dbName,
     });
   } catch (error: any) {
     return NextResponse.json(

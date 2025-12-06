@@ -37,7 +37,7 @@ export default function RootLayout({
     <WagmiProvider config={config}>
        <QueryClientProvider client={queryClient}>
        <RainbowKitProvider>
-<Header />
+{/* <Header /> */}
         {children}
         <ToastContainer position="top-right" autoClose={3000} />
        </RainbowKitProvider>
